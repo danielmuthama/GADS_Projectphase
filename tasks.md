@@ -30,6 +30,8 @@ Add a function `printCells` that uses the `printCell` and `corners` functions cr
 
 E.g. `printCells([[3,2], [2,3],[3,3],[3,4],[4,4]])` should output
 
+```
 ▢ ▣ ▣
 ▣ ▣ ▢
 ▢ ▣ ▢
+```
