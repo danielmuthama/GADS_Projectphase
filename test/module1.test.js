@@ -122,7 +122,7 @@ describe("Conway's Game of Life", () => {
   describe("Finding the corners", () => {
     var corners;
     before(()=>{
-      corners = gameoflife.corners([
+      corners = (gameoflife.corners || (()=>{}))([
         [2, 3],
         [2, 1],
         [4, 3],
@@ -184,8 +184,8 @@ describe("Conway's Game of Life", () => {
   describe('Calculating the next state', ()=>{
     var start, next;
     before(()=>{
-      start = gameoflife.seed([3,2], [2,3],[3,3],[3,4],[4,4]);
-      next = gameoflife.calculateNext(start);
+      start = (gameoflife.seed || (()=>{}))([3,2], [2,3],[3,3],[3,4],[4,4]);
+      next = (gameoflife.calculateNext || (()=>{}))(start);
     });
 
     it('should calculate the correct next state. @calculateNext-correct-next-state', ()=>{
