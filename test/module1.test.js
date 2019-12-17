@@ -11,7 +11,7 @@ describe("Conway's Game of Life", () => {
     });
 
     it("Should have a `seed` function that converts arguments to a real array. @seed-returns-array", () => {
-      assert(
+      assert(gameoflife.seed &&
         Array.isArray(gameoflife.seed([1, 2], [5, 6])) &&
           gameoflife.seed([1, 2], [5, 6]).length === 2,
         "Have you converted `arguments` to a real array?"
@@ -28,11 +28,11 @@ describe("Conway's Game of Life", () => {
     });
 
     it("Should have a `same` function that tests if two points are the same. @same-function-comparison", () => {
-      assert(
+      assert(gameoflife.same && 
         gameoflife.same([1, 2], [1, 2]),
         "Have you created a `same` function that returns true if the two point parameters are the same?"
       );
-      assert(
+      assert(gameoflife.same &&
         !gameoflife.same([1, 2], [5, 2]),
         "Have you created a `same` function that returns false if the two point parameters are not the same?"
       );
@@ -48,16 +48,16 @@ describe("Conway's Game of Life", () => {
     });
 
     it("Should have a `contains` function that tests if a cell is alive within the passed game state. @contains-test", () => {
-      const boundContains = gameoflife.contains.bind([
+      const boundContains = (gameoflife.contains || (() =>{})).bind([
         [1, 2],
         [3, 4],
         [4, 4]
       ]);
-      assert(
+      assert(gameoflife.contains && 
         boundContains([1, 2]) && boundContains([3, 4]) && boundContains([4, 4]),
         "Have you implemented a check that the passed cell is in the passed game state?"
       );
-      assert(
+      assert(gameoflife.contains &&
         !(
           boundContains([5, 6]) ||
           boundContains([2, 1]) ||
@@ -74,11 +74,11 @@ describe("Conway's Game of Life", () => {
     });
 
     it("Should have a `sum` function that sums two cells. @sum-addition", () => {
-      assert(
+      assert(gameoflife.sum && gameoflife.same &&
         gameoflife.same(gameoflife.sum([1, 2], [5, 7]), [6, 9]),
         "Have you implemented a sum function that adds two cells?"
       );
-      assert(
+      assert(gameoflife.sum && gameoflife.same &&
         gameoflife.same(gameoflife.sum([-1, 2], [5, -7]), [4, -5]),
         "Have you implemented a sum function that handles negative coordinates?"
       );
@@ -92,11 +92,11 @@ describe("Conway's Game of Life", () => {
         }
       });
       assert(sumNode, "Have you implemented an arrow function named `sum`?");
-      assert(
+      assert(sumNode &&
         sumNode.init.type === "ArrowFunctionExpression",
         "Have you implemented an arrow function named `sum`?"
       );
-      assert(
+      assert(sumNode &&
         sumNode.init.body.type === "ArrayExpression",
         "Have you implemented an arrow function named `sum`?"
       );
@@ -111,51 +111,60 @@ describe("Conway's Game of Life", () => {
     });
 
     it("Should return ▣ for a living cell. @printCell-living", () => {
-      assert(gameoflife.printCell([1,1], [[1,1], [2,2]]) == "\u25A3", "Have you returned '\u25A3' for living cells?");
+      assert(gameoflife.printCell && gameoflife.printCell([1,1], [[1,1], [2,2]]) == "\u25A3", "Have you returned '\u25A3' for living cells?");
     });
     
     it("Should return ▢ for a non-living cell. @printCell-non-living", () => {
-      assert(gameoflife.printCell([1,2], [[1,1], [2,2]]) == "\u25A2", "Have you returned '\u25A2' for non-living cells?");
+      assert(gameoflife.printCell && gameoflife.printCell([1,2], [[1,1], [2,2]]) == "\u25A2", "Have you returned '\u25A2' for non-living cells?");
     });
   });
 
   describe("Finding the corners", () => {
-    const corners = gameoflife.corners([
-      [2, 3],
-      [2, 1],
-      [4, 3],
-      [1, 1],
-      [2, 1],
-      [3, 1]
-    ]);
+    var corners;
+    before(()=>{
+      corners = gameoflife.corners([
+        [2, 3],
+        [2, 1],
+        [4, 3],
+        [1, 1],
+        [2, 1],
+        [3, 1]
+      ]);
+    });
+
+    it("Should have a corners function. @corners-function", () => {
+      assert(
+        gameoflife.corners,
+        "Have you created and exported a `printCell` function?");
+    });
 
     it('Should return zeros if there are no living cells. @corners-no-living-cells', () => {
-      const zeroCorners = gameoflife.corners();
-      assert(gameoflife.same(zeroCorners.topRight, [0,0]), "Have you ensured that topRight is [0,0] if there are no living cells?");
-      assert(gameoflife.same(zeroCorners.bottomLeft, [0,0]), "Have you ensured that botomLeft is [0,0] if there are no living cells?");
+      const zeroCorners = (gameoflife.corners || (() => {}))();
+      assert(gameoflife.same && gameoflife.corners && gameoflife.same(zeroCorners.topRight, [0,0]), "Have you ensured that topRight is [0,0] if there are no living cells?");
+      assert(gameoflife.same && gameoflife.corners && gameoflife.same(zeroCorners.bottomLeft, [0,0]), "Have you ensured that botomLeft is [0,0] if there are no living cells?");
     });
 
     it("Should find a top right. @corners-find-top-right", () => {
-      assert(corners.topRight, "");
-      assert(Array.isArray(corners.topRight), "");
-      assert(corners.topRight.length === 2, "");
+      assert(gameoflife.corners && corners.topRight, "");
+      assert(gameoflife.corners && Array.isArray(corners.topRight), "");
+      assert(gameoflife.corners && corners.topRight.length === 2, "");
     });
 
     it("Should find the correct top right. @corners-find-correct-top-right", () => {
-      assert(
+      assert(gameoflife.same && gameoflife.corners &&
         gameoflife.same(corners.topRight, [4, 3]),
         "Have you implemented a corners function that returns the correct top right coordinate?"
       );
     });
 
     it("Should find a bottom left. @corners-find-bottom-left", () => {
-      assert(corners.bottomLeft, "");
-      assert(Array.isArray(corners.bottomLeft), "");
-      assert(corners.bottomLeft.length === 2, "");
+      assert(gameoflife.corners && corners.bottomLeft, "");
+      assert(gameoflife.corners && Array.isArray(corners.bottomLeft), "");
+      assert(gameoflife.corners && corners.bottomLeft.length === 2, "");
     });
 
     it("Should find the correct bottom left. @corners-find-correct-bottom-left", () => {
-      assert(
+      assert(gameoflife.same && gameoflife.corners &&
         gameoflife.same(corners.bottomLeft, [1, 1]),
         "Have you implemented a corners function that returns the correct bottom left coordinate?"
       );
@@ -173,8 +182,12 @@ describe("Conway's Game of Life", () => {
   });
 
   describe('Calculating the next state', ()=>{
-    const start = gameoflife.seed([3,2], [2,3],[3,3],[3,4],[4,4]);
-    const next = gameoflife.calculateNext(start);
+    var start, next;
+    before(()=>{
+      start = gameoflife.seed([3,2], [2,3],[3,3],[3,4],[4,4]);
+      next = gameoflife.calculateNext(start);
+    });
+
     it('should calculate the correct next state. @calculateNext-correct-next-state', ()=>{
       // todo
     });
