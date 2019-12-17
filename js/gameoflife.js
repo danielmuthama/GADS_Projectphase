@@ -36,6 +36,13 @@ const isAlive = (cell, state) => {
 };
 
 const corners = (state = []) => {
+    if (state.length === 0) {
+        return {
+            topRight: [0,0],
+            bottomLeft: [0,0]
+        };
+    }
+
     const xs = state.map(([x,_]) => x);
     const ys = state.map(([_,y]) => y);
     return {
@@ -83,10 +90,14 @@ const iterate = (state, iterations) => {
     iterate(calculateNext(state), iterations-1);
 }
 
+const main = (pattern, iterations) => {
+    iterate(startPatterns[pattern], iterations);
+};
+
 const [pattern, iterations] = process.argv.slice(2);
 
 if (startPatterns[pattern] && !isNaN(parseInt(iterations))) {
-    iterate(startPatterns[pattern], parseInt(iterations));
+    main(pattern, parseInt(iterations));
 } else {
     console.log('Usage: node js/gameoflife.js rpentomino 50');
 }
@@ -102,3 +113,6 @@ exports.corners = corners;
 exports.calculateNext = calculateNext;
 exports.printCell = printCell;
 exports.printCells = printCells;
+exports.startPatterns = startPatterns;
+exports.iterate = iterate;
+exports.main = main;

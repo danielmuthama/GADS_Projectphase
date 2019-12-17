@@ -80,18 +80,18 @@ describe("Conway's Game of Life", () => {
       );
       assert(
         gameoflife.same(gameoflife.sum([-1, 2], [5, -7]), [4, -5]),
-        "Have you implemented a sum function that deals with negative coordinates?"
+        "Have you implemented a sum function that handles negative coordinates?"
       );
     });
 
     it("Should have a `sum` function that is a single-line arrow function. @sum-arrow-function", () => {
       var sumNode;
-      const esprimaAst = esprima.parseModule(source, {}, function(node) {
+      esprima.parseModule(source, {}, function(node) {
         if (node.type === "VariableDeclarator" && node.id.name === "sum") {
           sumNode = node;
         }
       });
-      assert(sumNode, "Have you implemented a function named `sum`?");
+      assert(sumNode, "Have you implemented an arrow function named `sum`?");
       assert(
         sumNode.init.type === "ArrowFunctionExpression",
         "Have you implemented an arrow function named `sum`?"
@@ -100,6 +100,22 @@ describe("Conway's Game of Life", () => {
         sumNode.init.body.type === "ArrayExpression",
         "Have you implemented an arrow function named `sum`?"
       );
+    });
+  });
+
+  describe("Printing a cell", () => {
+    it("Should have a printCell function. @printCell-function", () => {
+      assert(
+        gameoflife.printCell,
+        "Have you created and exported a `printCell` function?");
+    });
+
+    it("Should return ▣ for a living cell. @printCell-living", () => {
+      assert(gameoflife.printCell([1,1], [[1,1], [2,2]]) == "\u25A3", "Have you returned '\u25A3' for living cells?");
+    });
+    
+    it("Should return ▢ for a non-living cell. @printCell-non-living", () => {
+      assert(gameoflife.printCell([1,2], [[1,1], [2,2]]) == "\u25A2", "Have you returned '\u25A2' for non-living cells?");
     });
   });
 
@@ -113,37 +129,53 @@ describe("Conway's Game of Life", () => {
       [3, 1]
     ]);
 
-    it("should find a top right", () => {
+    it('Should return zeros if there are no living cells. @corners-no-living-cells', () => {
+      const zeroCorners = gameoflife.corners();
+      assert(gameoflife.same(zeroCorners.topRight, [0,0]), "Have you ensured that topRight is [0,0] if there are no living cells?");
+      assert(gameoflife.same(zeroCorners.bottomLeft, [0,0]), "Have you ensured that botomLeft is [0,0] if there are no living cells?");
+    });
+
+    it("Should find a top right. @corners-find-top-right", () => {
       assert(corners.topRight, "");
       assert(Array.isArray(corners.topRight), "");
       assert(corners.topRight.length === 2, "");
     });
 
-    it("should find the correct top right", () => {
+    it("Should find the correct top right. @corners-find-correct-top-right", () => {
       assert(
         gameoflife.same(corners.topRight, [4, 3]),
         "Have you implemented a corners function that returns the correct top right coordinate?"
       );
     });
 
-    it("should find a bottom left", () => {
+    it("Should find a bottom left. @corners-find-bottom-left", () => {
       assert(corners.bottomLeft, "");
       assert(Array.isArray(corners.bottomLeft), "");
       assert(corners.bottomLeft.length === 2, "");
     });
 
-    it("should find the correct bottom left", () => {
+    it("Should find the correct bottom left. @corners-find-correct-bottom-left", () => {
       assert(
         gameoflife.same(corners.bottomLeft, [1, 1]),
         "Have you implemented a corners function that returns the correct bottom left coordinate?"
       );
+    });
+
+    it("Should have a default parameter. @corners-has-default-parameter", ()=> {
+      var cornersNode;
+      esprima.parseModule(source, {}, function(node) {
+        if (node.type === "VariableDeclarator" && node.id.name === "corners") {
+          cornersNode = node;
+        }
+      });
+      console.log(cornersNode.init.params[0].type == 'AssignmentPattern');
     });
   });
 
   describe('Calculating the next state', ()=>{
     const start = gameoflife.seed([3,2], [2,3],[3,3],[3,4],[4,4]);
     const next = gameoflife.calculateNext(start);
-    it('should calculate the correct next state', ()=>{
+    it('should calculate the correct next state. @calculateNext-correct-next-state', ()=>{
       // todo
     });
   });
