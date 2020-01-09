@@ -12,7 +12,7 @@ function contains(cell) {
 
 }
 
-const sum = ([x, y], [j, k]) => undefined;
+const sum = ([x, y], [j, k]) => [];
 
 const getNeighborsOf = ([x, y]) => {
 
