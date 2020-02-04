@@ -261,22 +261,6 @@ describe("Conway's Game of Life", () => {
           gameoflife.contains.call(neighborsOfNeg1Neg1, [0, 0]),
         "Have you created a function 'getNeighborsOf' that returns the eight neighbors of the given cell?"
       );
-
-      var getNeighborsNode;
-      esprima.parseModule(source, {}, function(node) {
-        if (node.type === "VariableDeclarator" && node.id.name === "getNeighborsOf") {
-          getNeighborsNode = node;
-        }
-      });
-      assert(getNeighborsNode, "Have you implemented an arrow function named `getNeighborsOf`?");
-      assert(
-        getNeighborsNode && getNeighborsNode.init.type === "ArrowFunctionExpression",
-        "Have you implemented an arrow function named `getNeighborsOf`?"
-      );
-      assert(
-        getNeighborsNode && getNeighborsNode.init.body.type === "ArrayExpression",
-        "Have you implemented an arrow function named `getNeighborsOf`?"
-      );
     });
   });
 
@@ -367,18 +351,13 @@ describe("Conway's Game of Life", () => {
   });
 
   describe("Calculating the next state", () => {
-    var start, next;
-    before(() => {
-      start = gameoflife.seed([3, 2], [2, 3], [3, 3], [3, 4], [4, 4]);
-      next = gameoflife.calculateNext(start);
-    });
-
     it("Should have a calculateNext function. @calculateNext-function", () => {
       assert(
         gameoflife.calculateNext,
         "Have you created and exported a 'calculateNext' function?"
-      );
-
+        );
+      const next = gameoflife.calculateNext(gameoflife.seed([3, 2], [2, 3], [3, 3], [3, 4], [4, 4]));
+        
       assert(
         containsAll(
           [
